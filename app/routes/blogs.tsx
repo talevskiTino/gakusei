@@ -12,8 +12,8 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const blogsListItems = await db.blog.findMany({
     orderBy: { createdAt: 'desc' },
-    select: { id: true, title: true, content: true },
-    take: 5,
+    select: { id: true, title: true, content: true, author: true },
+    take: 3,
   });
   const user = await getUser(request);
 
@@ -53,11 +53,12 @@ export default function Blogs() {
         <div className="container">
           <div className="blogs-list">
             <p>Here are a few blogs to check out:</p>
-            {data.blogsListItems.map(({ id, title, content }) => (
+            {data.blogsListItems.map(({ id, title, content, author }) => (
               <div key={id}>
                 <Link prefetch="intent" to={id}>
                   <h3>{title}</h3>
                   <p>{content}</p>
+                  <p>-{author}</p>
                 </Link>
               </div>
             ))}
@@ -65,9 +66,9 @@ export default function Blogs() {
               Add your own
             </Link>
           </div>
-          <div className="blogs-outlet">
+          {/* <div className="blogs-outlet">
             <Outlet />
-          </div>
+          </div> */}
         </div>
       </main>
       <footer className="blogs-footer">

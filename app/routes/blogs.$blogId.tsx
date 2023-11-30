@@ -92,5 +92,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 export default function BlogRoute() {
   const data = useLoaderData<typeof loader>();
 
-  return <BlogDisplay isOwner={data.isOwner} blog={data.blog} />;
+  // return <BlogDisplay isOwner={data.isOwner} blog={data.blog} />;
+  return <div>asd</div>;
 }

@@ -18,6 +18,7 @@ model Blog {
   updatedAt  DateTime @updatedAt
   title       String
   content    String
+  author     String
 }
 
 model User {

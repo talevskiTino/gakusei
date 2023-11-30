@@ -8,11 +8,11 @@ export function BlogDisplay({
 }: {
   canDelete?: boolean;
   isOwner: boolean;
-  blog: Pick<Blog, 'content' | 'title'>;
+  blog: Pick<Blog, 'content' | 'title' | 'author'>;
 }) {
   return (
     <div>
-      <p>Here's your hilarious blog:</p>
+      <p>{blog.author}:</p>
       <p>{blog.content}</p>
       <Link to=".">"{blog.title}" Permalink</Link>
       {isOwner ? (
