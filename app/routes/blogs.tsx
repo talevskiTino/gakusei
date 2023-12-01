@@ -66,9 +66,9 @@ export default function Blogs() {
               Add your own
             </Link>
           </div>
-          {/* <div className="blogs-outlet">
+          <div className="blogs-outlet">
             <Outlet />
-          </div> */}
+          </div>
         </div>
       </main>
       <footer className="blogs-footer">
