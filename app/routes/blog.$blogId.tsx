@@ -1,5 +1,6 @@
 import type {
   ActionFunctionArgs,
+  LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node';
@@ -16,6 +17,11 @@ import { BlogDisplay } from '~/components/blog';
 
 import { db } from '~/utils/db.server';
 import { getUserId, requireUserId } from '~/utils/session.server';
+import stylesUrl from '~/styles/blogs.css';
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesUrl },
+];
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
@@ -92,5 +98,9 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 export default function BlogRoute() {
   const data = useLoaderData<typeof loader>();
 
-  return <BlogDisplay isOwner={data.isOwner} blog={data.blog} />;
+  return (
+    <div className="container blog">
+      <BlogDisplay isOwner={data.isOwner} blog={data.blog} />
+    </div>
+  );
 }

@@ -11,10 +11,10 @@ export function BlogDisplay({
   blog: Pick<Blog, 'content' | 'title' | 'author'>;
 }) {
   return (
-    <div>
-      <p>{blog.author}:</p>
+    <div className="blog-item">
+      <h1>{blog.title}</h1>
       <p>{blog.content}</p>
-      <Link to=".">"{blog.title}" Permalink</Link>
+      <p>- {blog.author}</p>
       {isOwner ? (
         <Form method="post">
           <button

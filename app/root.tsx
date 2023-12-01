@@ -1,11 +1,19 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node';
+import {
+  Form,
   isRouteErrorResponse,
+  Link,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
+  useLoaderData,
   useRouteError,
 } from '@remix-run/react';
 import type { PropsWithChildren } from 'react';
@@ -13,9 +21,12 @@ import type { PropsWithChildren } from 'react';
 import globalLargeStylesUrl from '~/styles/global-large.css';
 import globalMediumStylesUrl from '~/styles/global-medium.css';
 import globalStylesUrl from '~/styles/global.css';
-
+import stylesUrl from '~/styles/blogs.css';
+import { getUser } from './utils/session.server';
+import Navbar from './components/navbar';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: globalStylesUrl },
+  { rel: 'stylesheet', href: stylesUrl },
   {
     rel: 'stylesheet',
     href: globalMediumStylesUrl,
@@ -38,7 +49,13 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const user = await getUser(request);
+  return json({ user });
+};
+
 function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
+  const data = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -58,6 +75,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
         <Links />
       </head>
       <body>
+        <Navbar user={data.user} />
         {children}
         <Scripts />
         <LiveReload />

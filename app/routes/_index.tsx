@@ -1,10 +1,10 @@
 import type { LinksFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
-
 import stylesUrl from '~/styles/index.css';
-
+import stylesBlogsUrl from '~/styles/blogs.css';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
+  { rel: 'stylesheet', href: stylesBlogsUrl },
 ];
 
 export default function IndexRoute() {
