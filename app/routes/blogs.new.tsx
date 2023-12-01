@@ -48,9 +48,15 @@ function validateBlogContent(content: string) {
   }
 }
 
-function validateBlogTitle(name: string) {
-  if (name.length < 3) {
+function validateBlogTitle(title: string) {
+  if (title.length < 3) {
     return "That blog's title is too short";
+  }
+}
+
+function validateBlogAuthor(author: string) {
+  if (author.length < 3) {
+    return "That blog's author name is too short";
   }
 }
 
@@ -59,7 +65,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
   const content = form.get('content');
   const title = form.get('title');
-  if (typeof content !== 'string' || typeof title !== 'string') {
+  const author = form.get('author');
+  if (
+    typeof content !== 'string' ||
+    typeof title !== 'string' ||
+    typeof author !== 'string'
+  ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
@@ -70,8 +81,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const fieldErrors = {
     content: validateBlogContent(content),
     title: validateBlogTitle(title),
+    author: validateBlogAuthor(author),
   };
-  const fields = { content, title };
+  const fields = { content, title, author };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
       fieldErrors,
@@ -83,7 +95,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const blog = await db.blog.create({
     data: { ...fields, userId: userId },
   });
-  return redirect(`/blogs/${blog.id}`);
+  return redirect(`/blogs/new`);
 };
 
 export default function NewBlogRoute() {
@@ -93,17 +105,20 @@ export default function NewBlogRoute() {
   if (navigation.formData) {
     const content = navigation.formData.get('content');
     const title = navigation.formData.get('title');
+    const author = navigation.formData.get('author');
     if (
       typeof content === 'string' &&
       typeof title === 'string' &&
+      typeof author === 'string' &&
       !validateBlogContent(content) &&
-      !validateBlogTitle(title)
+      !validateBlogTitle(title) &&
+      !validateBlogAuthor(author)
     ) {
       return (
         <BlogDisplay
           canDelete={false}
           isOwner={true}
-          blog={{ title, content }}
+          blog={{ title, content, author }}
         />
       );
     }
@@ -112,6 +127,25 @@ export default function NewBlogRoute() {
     <div>
       <p>Add your own blog</p>
       <Form method="post">
+        <div>
+          <label>
+            Author:{' '}
+            <input
+              defaultValue={actionData?.fields?.author}
+              name="author"
+              type="text"
+              aria-invalid={Boolean(actionData?.fieldErrors?.author)}
+              aria-errormessage={
+                actionData?.fieldErrors?.author ? 'author-error' : undefined
+              }
+            />
+          </label>
+          {actionData?.fieldErrors?.author ? (
+            <p className="form-validation-error" id="author-error" role="alert">
+              {actionData.fieldErrors.author}
+            </p>
+          ) : null}
+        </div>
         <div>
           <label>
             Title:{' '}
