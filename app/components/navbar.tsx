@@ -6,12 +6,6 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
 ];
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = await getUser(request);
-
-  return json({ user });
-};
-
 export default function Navbar({ user = null }: { user?: any }) {
   return (
     <header className="blogs-header">

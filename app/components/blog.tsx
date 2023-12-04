@@ -8,7 +8,7 @@ export function BlogDisplay({
 }: {
   canDelete?: boolean;
   isOwner: boolean;
-  blog: Pick<Blog, 'content' | 'title' | 'author'>;
+  blog: Pick<Blog, 'content' | 'title' | 'author' | 'id'>;
 }) {
   return (
     <div className="blog-item">
@@ -16,17 +16,22 @@ export function BlogDisplay({
       <p>{blog.content}</p>
       <p>- {blog.author}</p>
       {isOwner ? (
-        <Form method="post">
-          <button
-            className="button"
-            disabled={!canDelete}
-            name="intent"
-            type="submit"
-            value="delete"
-          >
-            Delete
-          </button>
-        </Form>
+        <div className="blog-actions">
+          <Form method="PUT">
+            <button
+              className="button"
+              disabled={!canDelete}
+              name="intent"
+              type="submit"
+              value="delete"
+            >
+              Delete
+            </button>
+          </Form>
+          <Link className="button" to={`/modal?blogId=${blog?.id}`}>
+            Edit
+          </Link>
+        </div>
       ) : null}
     </div>
   );

@@ -6,8 +6,6 @@ import type {
 } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import {
-  Form,
-  Link,
   isRouteErrorResponse,
   useLoaderData,
   useParams,
@@ -74,7 +72,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get('intent') !== 'delete') {
+  if (form.get('intent') !== 'delete' && form.get('intent') !== 'edit') {
     throw new Response(`The intent ${form.get('intent')} is not supported`, {
       status: 400,
     });
@@ -84,14 +82,26 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     where: { id: params.blogId },
   });
   if (!blog) {
-    throw new Response("Can't delete what does not exist", {
+    throw new Response("Can't delete/edit what does not exist", {
       status: 404,
     });
   }
   if (blog.userId !== userId) {
     throw new Response("Pssh, nice try. That's not your blog", { status: 403 });
   }
-  await db.blog.delete({ where: { id: params.blogId } });
+  if (form.get('intent') === 'delete') {
+    await db.blog.delete({ where: { id: params.blogId } });
+  } else if (form.get('intent') === 'edit') {
+    let updatedBlog = await db.blog.update({
+      where: {
+        id: params.blogId,
+      },
+      data: {
+        ...blog,
+        content: 'I must die. Must I then die lamenting?!',
+      },
+    });
+  }
   return redirect('/blogs');
 };
 

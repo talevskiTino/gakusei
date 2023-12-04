@@ -80,13 +80,21 @@
   display: flex;
   flex-direction: column;
   justify-content: inherit;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .blog {
   display: flex;
   min-height: 50vh;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-direction: column;
+}
+
+.blog-actions {
+  display: flex;
+  gap: 10px;
+  width: fit-content;
 }
 
 @media print, (min-width: 640px) {

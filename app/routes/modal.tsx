@@ -1,55 +1,53 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog';
+import dialogStyles from '@reach/dialog/styles.css';
+import {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunction,
+  json,
+  redirect,
+} from '@remix-run/node';
 import {
   Form,
-  Link,
-  isRouteErrorResponse,
   useActionData,
-  useNavigation,
-  useRouteError,
+  useLoaderData,
+  useNavigate,
 } from '@remix-run/react';
-import { BlogDisplay } from '~/components/blog';
-
 import { db } from '~/utils/db.server';
 import { badRequest } from '~/utils/request.server';
-import { getUserId, requireUserId } from '~/utils/session.server';
+import { getUserId } from '~/utils/session.server';
 import {
   validateBlogAuthor,
   validateBlogContent,
   validateBlogTitle,
 } from '~/utils/validation';
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  console.error(error);
-
-  if (isRouteErrorResponse(error) && error.status === 401) {
-    return (
-      <div className="error-container">
-        <p>You must be logged in to create a blog.</p>
-        <Link to="/login">Login</Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
-}
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const userId = await getUserId(request);
-  if (!userId) {
-    throw new Response('Unauthorized', { status: 401 });
-  }
-  return json({});
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: dialogStyles }];
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const userId = await requireUserId(request);
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const userId = await getUserId(request);
+  const blogId = url.searchParams.get('blogId');
+  const blog = await db.blog.findUnique({
+    where: { id: blogId! },
+  });
+  if (!blog) {
+    throw new Response('OMG!!! Blog Not found.', {
+      status: 404,
+    });
+  }
+  return json({
+    isOwner: userId === blog.userId,
+    blog,
+  });
+};
+
+export const action = async ({ request, params }: ActionFunctionArgs) => {
   const form = await request.formData();
+  const url = new URL(request.url);
+  const blogId = url.searchParams.get('blogId');
   const content = form.get('content');
   const title = form.get('title');
   const author = form.get('author');
@@ -78,47 +76,47 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       formError: null,
     });
   }
-
-  await db.blog.create({
-    data: { ...fields, userId: userId },
+  await db.blog.update({
+    where: {
+      id: blogId!,
+    },
+    data: {
+      title: title,
+      author: author,
+      content: content,
+    },
   });
-  return redirect(`/blogs/new`);
+  return redirect(`/blogs`);
 };
 
-export default function NewBlogRoute() {
+export default function Modal() {
+  const data = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  const navigation = useNavigation();
-
-  if (navigation.formData) {
-    const content = navigation.formData.get('content');
-    const title = navigation.formData.get('title');
-    const author = navigation.formData.get('author');
-    if (
-      typeof content === 'string' &&
-      typeof title === 'string' &&
-      typeof author === 'string' &&
-      !validateBlogContent(content) &&
-      !validateBlogTitle(title) &&
-      !validateBlogAuthor(author)
-    ) {
-      return (
-        <BlogDisplay
-          canDelete={false}
-          isOwner={true}
-          blog={{ title, content, author }}
-        />
-      );
-    }
-  }
+  let navigate = useNavigate();
+  const close = () => navigate(-1);
   return (
-    <div>
-      <p>Add your own blog</p>
+    <Dialog
+      style={{ color: 'white', backgroundColor: '#333', position: 'relative' }}
+      isOpen={true}
+      onDismiss={close}
+    >
+      <span
+        style={{
+          position: 'absolute',
+          right: '15px',
+          top: '10px',
+          cursor: 'pointer',
+        }}
+        onClick={close}
+      >
+        x
+      </span>
       <Form method="post">
         <div>
           <label>
             Author:{' '}
             <input
-              defaultValue={actionData?.fields?.author}
+              defaultValue={data?.blog?.author}
               name="author"
               type="text"
               aria-invalid={Boolean(actionData?.fieldErrors?.author)}
@@ -137,7 +135,7 @@ export default function NewBlogRoute() {
           <label>
             Title:{' '}
             <input
-              defaultValue={actionData?.fields?.title}
+              defaultValue={data?.blog?.title}
               name="title"
               type="text"
               aria-invalid={Boolean(actionData?.fieldErrors?.title)}
@@ -156,7 +154,7 @@ export default function NewBlogRoute() {
           <label>
             Content:{' '}
             <textarea
-              defaultValue={actionData?.fields?.content}
+              defaultValue={data?.blog?.content}
               name="content"
               aria-invalid={Boolean(actionData?.fieldErrors?.content)}
               aria-errormessage={
@@ -181,10 +179,10 @@ export default function NewBlogRoute() {
             </p>
           ) : null}
           <button type="submit" className="button">
-            Add
+            Save
           </button>
         </div>
       </Form>
-    </div>
+    </Dialog>
   );
 }
