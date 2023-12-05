@@ -8,7 +8,9 @@ export function BlogDisplay({
 }: {
   canDelete?: boolean;
   isOwner: boolean;
-  blog: Pick<Blog, 'content' | 'title' | 'author' | 'id'>;
+  blog: Pick<Blog, 'content' | 'title' | 'author' | 'id'> & {
+    id?: string | null;
+  };
 }) {
   return (
     <div className="blog-item">

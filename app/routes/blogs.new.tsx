@@ -105,7 +105,7 @@ export default function NewBlogRoute() {
         <BlogDisplay
           canDelete={false}
           isOwner={true}
-          blog={{ title, content, author }}
+          blog={{ title, content, author, id: '' }}
         />
       );
     }
