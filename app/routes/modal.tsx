@@ -1,5 +1,3 @@
-import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog';
-import dialogStyles from '@reach/dialog/styles.css';
 import {
   ActionFunctionArgs,
   LinksFunction,
@@ -22,9 +20,9 @@ import {
   validateBlogTitle,
 } from '~/utils/validation';
 
-export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: dialogStyles }];
-};
+// export const links: LinksFunction = () => {
+//   return [{ rel: 'stylesheet', href: dialogStyles }];
+// };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -95,11 +93,12 @@ export default function Modal() {
   let navigate = useNavigate();
   const close = () => navigate(-1);
   return (
-    <Dialog
-      style={{ color: 'white', backgroundColor: '#333', position: 'relative' }}
-      isOpen={true}
-      onDismiss={close}
-    >
+    // <Dialog
+    //   style={{ color: 'white', backgroundColor: '#333', position: 'relative' }}
+    //   isOpen={true}
+    //   onDismiss={close}
+    // >
+    <div className="modal">
       <span
         style={{
           position: 'absolute',
@@ -183,6 +182,7 @@ export default function Modal() {
           </button>
         </div>
       </Form>
-    </Dialog>
+    </div>
+    // </Dialog>
   );
 }

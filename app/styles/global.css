@@ -204,6 +204,17 @@ form {
   width: 100%;
 }
 
+.modal {
+  width: 50%;
+  margin: auto;
+  background-color: #2f4f4f;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-top: 1rem;
+  box-shadow: 0 0 15px rgb(255, 64, 0, 100);
+  position: relative;
+}
+
 fieldset {
   margin: 0;
   padding: 0;
