@@ -29,11 +29,9 @@ export default function Blogs() {
           <div className="blogs-list">
             <p>Here are a few blogs to check out:</p>
             {data.blogsListItems.map(({ id, title, content, author }) => (
-              <div key={id}>
+              <div key={id} style={{ marginBottom: '2rem' }}>
                 <Link prefetch="intent" to={'/blog/' + id}>
                   <h3>{title}</h3>
-                  <p>{content}</p>
-                  <p>-{author}</p>
                 </Link>
               </div>
             ))}

@@ -1,6 +1,5 @@
-import { LinksFunction, LoaderFunctionArgs, json } from '@remix-run/node';
-import { Form, Link, useLoaderData } from '@remix-run/react';
-import { getUser } from '~/utils/session.server';
+import { LinksFunction } from '@remix-run/node';
+import { Form, Link } from '@remix-run/react';
 import stylesUrl from '~/styles/blogs.css';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },

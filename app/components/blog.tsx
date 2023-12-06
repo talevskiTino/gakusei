@@ -15,7 +15,7 @@ export function BlogDisplay({
   return (
     <div className="blog-item">
       <h1>{blog.title}</h1>
-      <p>{blog.content}</p>
+      <p style={{ whiteSpace: 'break-spaces' }}>{blog.content}</p>
       <p>- {blog.author}</p>
       {isOwner ? (
         <div className="blog-actions">

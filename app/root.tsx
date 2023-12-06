@@ -22,10 +22,12 @@ import globalLargeStylesUrl from '~/styles/global-large.css';
 import globalMediumStylesUrl from '~/styles/global-medium.css';
 import globalStylesUrl from '~/styles/global.css';
 import stylesUrl from '~/styles/blogs.css';
+import stylesheet from '~/tailwind.css';
 import { getUser } from './utils/session.server';
 import Navbar from './components/navbar';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: globalStylesUrl },
+  // { rel: 'stylesheet', href: stylesheet },
   { rel: 'stylesheet', href: stylesUrl },
   {
     rel: 'stylesheet',
