@@ -8,11 +8,11 @@ body {
   background-image: var(--gradient-background);
 }
 
-.container {
+.custom-container {
   min-height: inherit;
 }
 
-.container,
+.custom-container,
 .content {
   display: flex;
   flex-direction: column;

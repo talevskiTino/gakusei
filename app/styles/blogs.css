@@ -5,12 +5,11 @@
 }
 
 .blogs-header {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
   border-bottom: 1px solid var(--color-border);
 }
 
-.blogs-header .container {
+.blogs-header .custom-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,6 +35,17 @@
 
 .logo-medium {
   line-height: 1;
+  font-size: 2.5rem;
+}
+
+.text-team-yellow {
+  color: rgb(228, 228, 38);
+}
+.text-team-blue {
+  color: rgb(69, 38, 160);
+}
+.text-team-red {
+  color: rgb(180, 32, 32);
 }
 
 .blogs-header a:hover {
@@ -56,7 +66,7 @@
   flex: 1 1 100%;
 }
 
-.blogs-main .container {
+.blogs-main .custom-container {
   display: flex;
   gap: 1rem;
 }
@@ -108,6 +118,11 @@
 
   .logo-medium {
     line-height: 1;
+    font-size: 2.5rem;
+  }
+
+  .logo-rotator {
+    line-height: 1;
   }
 
   .blogs-main {
@@ -117,7 +132,7 @@
 }
 
 @media (max-width: 639px) {
-  .blogs-main .container {
+  .blogs-main .custom-container {
     flex-direction: column;
   }
 }

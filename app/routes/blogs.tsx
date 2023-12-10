@@ -25,7 +25,7 @@ export default function Blogs() {
   return (
     <div className="blogs-layout">
       <main className="blogs-main">
-        <div className="container">
+        <div className="custom-container">
           <div className="blogs-list">
             <p>Here are a few blogs to check out:</p>
             {data.blogsListItems.map(({ id, title, content, author }) => (
@@ -45,7 +45,7 @@ export default function Blogs() {
         </div>
       </main>
       <footer className="blogs-footer">
-        <div className="container">
+        <div className="custom-container">
           <Link reloadDocument to="/blogs.rss">
             RSS
           </Link>

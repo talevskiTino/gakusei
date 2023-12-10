@@ -9,7 +9,7 @@ export const links: LinksFunction = () => [
 
 export default function IndexRoute() {
   return (
-    <div className="container">
+    <div className="custom-container">
       <div className="content">
         <h1>
           Stoic <span>Blogs!</span>

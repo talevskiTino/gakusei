@@ -136,7 +136,7 @@ p {
   border-width: 0;
 }
 
-.container {
+.custom-container {
   --gutter: 16px;
   width: 1024px;
   max-width: calc(100% - var(--gutter) * 2);
@@ -156,7 +156,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-links);
+  background-color: var(--color-links) !important;
   color: var(--color-background);
   font-family: var(--font-display);
   font-weight: bold;

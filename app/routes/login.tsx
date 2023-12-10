@@ -125,7 +125,7 @@ export default function Login() {
   const actionData = useActionData<typeof action>();
   const [searchParams] = useSearchParams();
   return (
-    <div className="container">
+    <div className="custom-container">
       <div className="content" data-light="">
         <h1>Login</h1>
         <Form method="post">

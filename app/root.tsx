@@ -28,7 +28,6 @@ import Navbar from './components/navbar';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: globalStylesUrl },
   // { rel: 'stylesheet', href: stylesheet },
-  { rel: 'stylesheet', href: stylesUrl },
   {
     rel: 'stylesheet',
     href: globalMediumStylesUrl,

@@ -24,6 +24,6 @@ h6 {
   line-height: 1.5rem;
 }
 
-.container {
+.custom-container {
   --gutter: 40px;
 }

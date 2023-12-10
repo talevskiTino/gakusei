@@ -13,7 +13,7 @@ export function BlogDisplay({
   };
 }) {
   return (
-    <div className="blog-item">
+    <div className="blog-item custom-container">
       <h1>{blog.title}</h1>
       <p style={{ whiteSpace: 'break-spaces' }}>{blog.content}</p>
       <p>- {blog.author}</p>

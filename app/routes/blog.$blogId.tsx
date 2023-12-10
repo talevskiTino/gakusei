@@ -25,7 +25,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
     ? {
         description: `Enjoy the "${data.blog.title}" blog and much more`,
-        title: `"${data.blog.title}" blog`,
+        title: `"${data.blog.title}"`,
       }
     : { description: 'No blog found', title: 'No blog' };
 
@@ -109,7 +109,7 @@ export default function BlogRoute() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className="container blog">
+    <div className="custom-container blog">
       <BlogDisplay isOwner={data.isOwner} blog={data.blog} />
     </div>
   );
