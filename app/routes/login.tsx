@@ -6,12 +6,16 @@ import type {
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
 
 import stylesUrl from '~/styles/login.css';
+import stylesBlogsUrl from '~/styles/blogs.css';
+import stylesHeaderUrl from '~/styles/blogs.css';
 import { db } from '~/utils/db.server';
 import { badRequest } from '~/utils/request.server';
 import { createUserSession, login, register } from '~/utils/session.server';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
+  { rel: 'stylesheet', href: stylesBlogsUrl },
+  { rel: 'stylesheet', href: stylesHeaderUrl },
 ];
 
 export const meta: MetaFunction = () => {

@@ -2,7 +2,7 @@ import { LinksFunction } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
 import { transform } from 'esbuild';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import stylesUrl from '~/styles/blogs.css';
+import stylesUrl from '~/styles/header.css';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
 ];
@@ -139,7 +139,7 @@ export default function Navbar({ user = null }: { user?: any }) {
             </Form>
           </div>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link className="button" to="/login">Login</Link>
         )}
       </div>
     </header>
