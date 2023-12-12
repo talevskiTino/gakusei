@@ -15,7 +15,7 @@ export default function Navbar({ user = null }: { user?: any }) {
     const requestId = { current: null as number | null };
 
     const rotateLogo = () => {
-      setRotationSpeed(rotationDirection === -1 ? 1 : 0.2);
+      setRotationSpeed(rotationDirection === -1 ? 2 : 0.2);
       setRotationDegree(
         (prevDegree) => prevDegree + rotationSpeed * rotationDirection
       );
@@ -41,8 +41,8 @@ export default function Navbar({ user = null }: { user?: any }) {
 
   return (
     <header className="blogs-header">
-      <div className="custom-container" style={{ position: 'relative' }}>
-        <h1 className="home-link">
+      <div className="custom-container">
+        <h1 className="home-link" style={{ position: 'relative' }}>
           <Link to="/" title="Remix Blogs" aria-label="Remix Blogs">
             <div
               style={{
@@ -123,6 +123,10 @@ export default function Navbar({ user = null }: { user?: any }) {
             <div className="logo-medium">BL🤔GS</div> */}
           </Link>
         </h1>
+        <h4 className="navbar-items">
+          <Link to="/blogs">Blogs</Link>
+          <Link to="/videos">Videos</Link>
+        </h4>
         {user ? (
           <div className="user-info">
             <span>{`Hi ${
