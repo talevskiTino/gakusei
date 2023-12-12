@@ -19,10 +19,11 @@ import {
   validateBlogContent,
   validateBlogTitle,
 } from '~/utils/validation';
+import stylesHeaderUrl from '~/styles/blogs.css';
 
-// export const links: LinksFunction = () => {
-//   return [{ rel: 'stylesheet', href: dialogStyles }];
-// };
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: stylesHeaderUrl }];
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);

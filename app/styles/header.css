@@ -1,0 +1,40 @@
+.blogs-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+.blogs-header .custom-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-direction: row;
+}
+
+.blogs-header .home-link {
+font-family: var(--font-display);
+font-size: 3rem;
+}
+
+.blogs-header .home-link a {
+color: var(--color-foreground);
+}
+
+.blogs-header .home-link a:hover {
+text-decoration: none;
+}
+
+.blogs-header .logo-medium {
+display: none;
+}
+
+.blogs-header a:hover {
+    text-decoration-style: wavy;
+    text-decoration-thickness: 1px;
+}
+
+.blogs-header .user-info {
+display: flex;
+gap: 1rem;
+align-items: center;
+white-space: nowrap;
+}
