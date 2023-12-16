@@ -12,7 +12,12 @@ async function seed() {
   });
   await Promise.all(
     getBlogs().map((blog) => {
-      const data = { userId: user.id, ...blog };
+      const data = {
+        userId: user.id,
+        ...blog,
+        images: { create: blog.images },
+        videos: { create: blog.videos },
+      };
       return db.blog.create({ data });
     })
   );
@@ -27,65 +32,20 @@ function getBlogs() {
       author: 'Epictetus',
       content:
         'I must die. Must I then die lamenting? I must be put in chains. Must I then also lament? I must go into exile. Does any man then hinder me from going with smiles and cheerfulness and contentment?',
-    },
-    {
-      title: 'Meditations',
-      author: 'Marcus Aurelius',
-      content:
-        'Very little is needed to make a happy life; it is all within yourself, in your way of thinking.',
-    },
-    {
-      title: 'On the Shortness of Life',
-      author: 'Seneca',
-      content:
-        "It's not that we have a short time to live, but that we waste much of it.",
-    },
-    {
-      title: 'Letters from a Stoic',
-      author: 'Seneca',
-      content:
-        'He who fears death will never do anything worth of a man who is alive.',
-    },
-    {
-      title: 'Meditations',
-      author: 'Marcus Aurelius',
-      content:
-        'The best revenge is to be unlike him who performed the injustice.',
-    },
-    {
-      title: 'Enchiridion',
-      author: 'Epictetus',
-      content:
-        'We cannot choose our external circumstances, but we can always choose how we respond to them.',
-    },
-    {
-      title: 'Letters from a Stoic',
-      author: 'Seneca',
-      content:
-        'True happiness is to enjoy the present, without anxious dependence upon the future.',
-    },
-    {
-      title: 'Meditations',
-      author: 'Marcus Aurelius',
-      content:
-        'Waste no more time arguing about what a good man should be. Be one.',
-    },
-    {
-      title: 'Enchiridion',
-      author: 'Epictetus',
-      content: 'He who laughs at himself never runs out of things to laugh at.',
-    },
-    {
-      title: 'On the Shortness of Life',
-      author: 'Seneca',
-      content:
-        'It is not that we have so little time but that we lose so much.',
-    },
-    {
-      title: 'Meditations',
-      author: 'Marcus Aurelius',
-      content:
-        'The best revenge is to be unlike him who performed the injustice.',
+      images: [
+        {
+          imageUrl:
+            'https://as1.ftcdn.net/v2/jpg/06/69/02/48/1000_F_669024888_NYXsut9fCWIqM8syEtXrueu3A8ULG8UR.jpg',
+        },
+        {
+          imageUrl:
+            'https://as2.ftcdn.net/v2/jpg/05/99/67/07/1000_F_599670708_tOtuZrowfj4CmjkscjjZDwoVmrwCl7qS.jpg',
+        },
+      ],
+      videos: [
+        { videoUrl: 'https://www.youtube.com/shorts/IHLbw1fL3TM' },
+        { videoUrl: 'https://www.youtube.com/shorts/PNUxQBK_9TQ' },
+      ],
     },
   ];
 }

@@ -1,7 +1,6 @@
 import { LinksFunction } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
-import { transform } from 'esbuild';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import stylesUrl from '~/styles/header.css';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
@@ -42,7 +41,10 @@ export default function Navbar({ user = null }: { user?: any }) {
   return (
     <header className="blogs-header">
       <div className="custom-container">
-        <h1 className="home-link" style={{ position: 'relative' }}>
+        <h1
+          className="home-link"
+          style={{ position: 'relative', width: '50px' }}
+        >
           <Link to="/" title="Remix Blogs" aria-label="Remix Blogs">
             <div
               style={{
@@ -118,15 +120,11 @@ export default function Navbar({ user = null }: { user?: any }) {
                 ></path>
               </svg>
             </div>
-
-            {/* <div className="logo">🤔</div>
-            <div className="logo-medium">BL🤔GS</div> */}
           </Link>
         </h1>
-        <h4 className="navbar-items">
+        {/* <h4 className="navbar-items">
           <Link to="/blogs">Blogs</Link>
-          <Link to="/videos">Videos</Link>
-        </h4>
+        </h4> */}
         {user ? (
           <div className="user-info">
             <span>{`Hi ${
@@ -139,7 +137,9 @@ export default function Navbar({ user = null }: { user?: any }) {
             </Form>
           </div>
         ) : (
-          <Link className="button" to="/login">Login</Link>
+          <Link className="button" to="/login">
+            Login
+          </Link>
         )}
       </div>
     </header>

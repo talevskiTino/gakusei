@@ -58,6 +58,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const blog = await db.blog.findUnique({
     where: { id: params.blogId },
+    include: {
+      images: true,
+      videos: true,
+    },
   });
   if (!blog) {
     throw new Response('OMG!!! Blog Not found.', {
@@ -91,16 +95,6 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   }
   if (form.get('intent') === 'delete') {
     await db.blog.delete({ where: { id: params.blogId } });
-  } else if (form.get('intent') === 'edit') {
-    let updatedBlog = await db.blog.update({
-      where: {
-        id: params.blogId,
-      },
-      data: {
-        ...blog,
-        content: 'I must die. Must I then die lamenting?!',
-      },
-    });
   }
   return redirect('/blogs');
 };
@@ -110,7 +104,12 @@ export default function BlogRoute() {
 
   return (
     <div className="custom-container blog">
-      <BlogDisplay isOwner={data.isOwner} blog={data.blog} />
+      <BlogDisplay
+        isOwner={data.isOwner}
+        blog={{
+          ...data.blog,
+        }}
+      />
     </div>
   );
 }

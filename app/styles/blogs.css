@@ -7,10 +7,10 @@
 .blogs-header .logo-medium {
   display: none;
 }
-*/ .navbar-items {
-  margin-left: 12%;
+.navbar-items {
+  margin-right: auto;
   display: flex;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .logo-medium {

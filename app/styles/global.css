@@ -95,33 +95,33 @@ h6 {
 }
 
 h1 {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 2.25rem !important;
+  line-height: 2.5rem !important;
 }
 
 h2 {
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
 }
 
 h3 {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
 }
 
 h4 {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
 }
 
 h5,
 h6 {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
 }
 
 p {
-  font-size: 1.13rem;
+  font-size: 1.13rem !important;
 }
 
 .sr-only {
@@ -209,8 +209,9 @@ form {
 }
 
 .modal {
-  width: 50%;
-  margin: auto;
+  min-width: 50%;
+  max-width: 75%;
+  margin: 2rem auto;
   background-color: #2f4f4f;
   padding: 1rem;
   border-radius: 1rem;
@@ -270,6 +271,10 @@ textarea {
   color: var(--color-foreground);
   transition: box-shadow 200ms, border-color 50ms ease-out,
     background-color 50ms ease-out, color 50ms ease-out;
+}
+
+textarea {
+  height: 5rem;
 }
 
 [data-light] [type='text'],

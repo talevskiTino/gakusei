@@ -50,6 +50,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
+  const values = Object.fromEntries(form);
   const content = form.get('content');
   const title = form.get('title');
   const author = form.get('author');
@@ -105,7 +106,7 @@ export default function NewBlogRoute() {
         <BlogDisplay
           canDelete={false}
           isOwner={true}
-          blog={{ title, content, author, id: '' }}
+          blog={{ title, content, author }}
         />
       );
     }
