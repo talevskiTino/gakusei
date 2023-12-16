@@ -18,6 +18,7 @@ export function validateBlogAuthor(author: string) {
 
 export function validateBlogImageUrl(images: Array<any>) {
   const invalidImages: any[] = [];
+  const validImages: any[] = [];
 
   images.forEach((image, index) => {
     if (image.imageUrl.length < 10) {
@@ -27,18 +28,23 @@ export function validateBlogImageUrl(images: Array<any>) {
         invalidImageUrlIndex: index,
       });
     } else {
-      invalidImages.push({
+      validImages.push({
         errorImageUrl: false,
         invalidImageUrlIndex: index,
       });
     }
   });
 
-  return invalidImages.length > 0 ? invalidImages : null;
+  return invalidImages.length > 0
+    ? [...invalidImages, ...validImages].sort(
+        (a, b) => a.invalidImageUrlIndex - b.invalidImageUrlIndex
+      )
+    : undefined;
 }
 
 export function validateBlogVideoUrl(videos: Array<any>) {
   const invalidVideos: any[] = [];
+  const validVideos: any[] = [];
 
   videos.forEach((video, index) => {
     if (video.videoUrl.length < 10 || !video.videoUrl.includes('youtube')) {
@@ -48,12 +54,16 @@ export function validateBlogVideoUrl(videos: Array<any>) {
         invalidVideoUrlIndex: index,
       });
     } else {
-      invalidVideos.push({
+      validVideos.push({
         errorVideoUrl: false,
         invalidVideoUrlIndex: index,
       });
     }
   });
 
-  return invalidVideos.length > 0 ? invalidVideos : null;
+  return invalidVideos.length > 0
+    ? [...invalidVideos, ...validVideos].sort(
+        (a, b) => a.invalidVideoUrlIndex - b.invalidVideoUrlIndex
+      )
+    : undefined;
 }
