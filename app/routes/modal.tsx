@@ -96,7 +96,6 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   };
   const fields = { content, title, author };
   if (Object.values(fieldErrors).some(Boolean)) {
-    console.log(123, fieldErrors);
     return badRequest({
       fieldErrors,
       fields,
@@ -214,7 +213,6 @@ export default function Modal() {
           <label>
             Content:{' '}
             <textarea
-              className="p-2"
               defaultValue={data?.blog?.content}
               name="content"
               aria-invalid={Boolean(actionData?.fieldErrors?.content)}

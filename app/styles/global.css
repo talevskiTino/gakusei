@@ -273,10 +273,6 @@ textarea {
     background-color 50ms ease-out, color 50ms ease-out;
 }
 
-textarea {
-  height: 5rem;
-}
-
 [data-light] [type='text'],
 [data-light] [type='password'],
 [data-light] [type='date'],
@@ -330,6 +326,11 @@ textarea:disabled,
 textarea[readonly] {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+textarea {
+  height: 5rem;
+  padding: 0.2rem 0.5rem !important;
 }
 
 [type='file'],

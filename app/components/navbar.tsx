@@ -122,9 +122,9 @@ export default function Navbar({ user = null }: { user?: any }) {
             </div>
           </Link>
         </h1>
-        {/* <h4 className="navbar-items">
+        <h4 className="navbar-items">
           <Link to="/blogs">Blogs</Link>
-        </h4> */}
+        </h4>
         {user ? (
           <div className="user-info">
             <span>{`Hi ${

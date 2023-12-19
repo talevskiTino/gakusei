@@ -8,6 +8,7 @@ import {
   useNavigation,
   useRouteError,
 } from '@remix-run/react';
+import { useState } from 'react';
 import { BlogDisplay } from '~/components/blog';
 
 import { db } from '~/utils/db.server';
@@ -50,10 +51,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const values = Object.fromEntries(form);
   const content = form.get('content');
   const title = form.get('title');
   const author = form.get('author');
+  const images = {
+    create: form
+      .getAll('images')
+      .filter((imageUrl) => imageUrl !== '')
+      .map((imageUrl) => ({
+        imageUrl,
+      })),
+  };
+  const videos = {
+    create: form
+      .getAll('videos')
+      .filter((videoUrl) => videoUrl !== '')
+      .map((videoUrl) => ({
+        videoUrl,
+      })),
+  };
   if (
     typeof content !== 'string' ||
     typeof title !== 'string' ||
@@ -70,8 +86,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     content: validateBlogContent(content),
     title: validateBlogTitle(title),
     author: validateBlogAuthor(author),
+    images: null,
+    videos: null,
   };
-  const fields = { content, title, author };
+  const fields = { content, title, author, images, videos };
+  console.log(123123, fields);
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
       fieldErrors,
@@ -79,9 +98,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       formError: null,
     });
   }
-
   await db.blog.create({
-    data: { ...fields, userId: userId },
+    data: {
+      ...fields,
+      userId: userId,
+    },
   });
   return redirect(`/blogs/new`);
 };
@@ -89,7 +110,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function NewBlogRoute() {
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
-
+  const [imageInputs, setImageInputs] = useState(['']);
+  const [videoInputs, setVideoInputs] = useState(['']);
   if (navigation.formData) {
     const content = navigation.formData.get('content');
     const title = navigation.formData.get('title');
@@ -111,6 +133,30 @@ export default function NewBlogRoute() {
       );
     }
   }
+  const createNewImageInputHandler = () => {
+    if (imageInputs.every((input) => input !== '')) {
+      setImageInputs((prevInputs) => [...prevInputs, '']);
+    }
+  };
+
+  const handleImageInputChange = (index: any, value: any) => {
+    const newInputs = [...imageInputs];
+    newInputs[index] = value;
+    setImageInputs(newInputs);
+  };
+
+  const createNewVideoInputHandler = () => {
+    if (imageInputs.every((input) => input !== '')) {
+      setVideoInputs((prevInputs) => [...prevInputs, '']);
+    }
+  };
+
+  const handleVideoInputChange = (index: any, value: any) => {
+    const newInputs = [...imageInputs];
+    newInputs[index] = value;
+    setVideoInputs(newInputs);
+  };
+
   return (
     <div>
       <p>Add your own blog</p>
@@ -172,6 +218,82 @@ export default function NewBlogRoute() {
               role="alert"
             >
               {actionData.fieldErrors.content}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <label>
+            Images:{' '}
+            <div>
+              {imageInputs.map((inputValue, index) => (
+                <div key={index} className="flex gap-2 mb-3">
+                  <input
+                    name="images"
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) =>
+                      handleImageInputChange(index, e.target.value)
+                    }
+                    aria-invalid={Boolean(actionData?.fieldErrors?.images)}
+                    aria-errormessage={
+                      actionData?.fieldErrors?.images
+                        ? 'image-error'
+                        : undefined
+                    }
+                  />
+                  {index === imageInputs.length - 1 && ( // Show "+" button only for the last input
+                    <span
+                      onClick={createNewImageInputHandler}
+                      className="button rounded-full flex items-center justify-center self-center w-8 h-8"
+                    >
+                      +
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </label>
+          {actionData?.fieldErrors?.images ? (
+            <p className="form-validation-error" id="image-error" role="alert">
+              {actionData.fieldErrors.images}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <label>
+            Videos:{' '}
+            <div>
+              {videoInputs.map((inputValue, index) => (
+                <div key={index} className="flex gap-2 mb-3">
+                  <input
+                    name="videos"
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) =>
+                      handleVideoInputChange(index, e.target.value)
+                    }
+                    aria-invalid={Boolean(actionData?.fieldErrors?.videos)}
+                    aria-errormessage={
+                      actionData?.fieldErrors?.videos
+                        ? 'video-error'
+                        : undefined
+                    }
+                  />
+                  {index === videoInputs.length - 1 && ( // Show "+" button only for the last input
+                    <span
+                      onClick={createNewVideoInputHandler}
+                      className="button rounded-full flex items-center justify-center self-center w-8 h-8"
+                    >
+                      +
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </label>
+          {actionData?.fieldErrors?.videos ? (
+            <p className="form-validation-error" id="video-error" role="alert">
+              {actionData.fieldErrors.videos}
             </p>
           ) : null}
         </div>

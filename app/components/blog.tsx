@@ -28,24 +28,29 @@ export function BlogDisplay({
   isOwner,
   blog,
 }: BlogDisplayProps) {
-  let videoId = blog.videos[0].videoUrl.split('/shorts/');
+  let videoId = blog?.videos[0]?.videoUrl.split('/shorts/');
   if (!videoId) {
-    videoId = blog.videos[0].videoUrl.split('/watch?v=');
+    videoId = blog?.videos[0]?.videoUrl.split('/watch?v=');
   }
   return (
     <div className="blog-item custom-container">
       <h1>{blog.title}</h1>
-      <img className="my-16" src={blog.images[0].imageUrl} />
+      {blog.images.length > 0 && (
+        <img className="my-16" src={blog.images[0].imageUrl} />
+      )}
       <p style={{ whiteSpace: 'break-spaces' }}>{blog.content}</p>
       <p className="mt-4">- {blog.author}</p>
-      <div className="my-16" style={{ width: '100%', aspectRatio: '16 / 9' }}>
-        <iframe
-          style={{ width: '100%', height: '100%', aspectRatio: 'inherit' }}
-          src={`https://www.youtube.com/embed/${videoId[1]}`}
-          frameBorder={0}
-          allow="autoplay; encrypted-media;"
-        ></iframe>
-      </div>
+      {blog.videos.length > 0 && (
+        <div className="my-16" style={{ width: '100%', aspectRatio: '16 / 9' }}>
+          <iframe
+            style={{ width: '100%', height: '100%', aspectRatio: 'inherit' }}
+            src={`https://www.youtube.com/embed/${videoId[1]}`}
+            frameBorder={0}
+            allow="autoplay; encrypted-media;"
+          ></iframe>
+        </div>
+      )}
+
       {isOwner ? (
         <div className="blog-actions">
           <Form method="PUT">
