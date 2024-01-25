@@ -90,7 +90,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     videos: null,
   };
   const fields = { content, title, author, images, videos };
-  console.log(123123, fields);
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
       fieldErrors,
@@ -146,13 +145,13 @@ export default function NewBlogRoute() {
   };
 
   const createNewVideoInputHandler = () => {
-    if (imageInputs.every((input) => input !== '')) {
+    if (videoInputs.every((input) => input !== '')) {
       setVideoInputs((prevInputs) => [...prevInputs, '']);
     }
   };
 
   const handleVideoInputChange = (index: any, value: any) => {
-    const newInputs = [...imageInputs];
+    const newInputs = [...videoInputs];
     newInputs[index] = value;
     setVideoInputs(newInputs);
   };
